@@ -33,7 +33,7 @@ def webhook():
 
 
 def process_req(req):
-    if req.get("result").get("action") == "query":
+    if req.get("result").get("action") == "search_init.search_init-custom":
         qry = req.get("result").get("parameters").get("text")
         res = wa_search(qry)
         return res
