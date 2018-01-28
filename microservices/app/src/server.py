@@ -55,8 +55,10 @@ def process_req(req):
 
 def wa_search(query):
     url = 'http://api.wolframalpha.com/v1/result?appid=UJKYEW-YKL88PHUER'
-    srch = query.replace(' ', '+')
-    final_url = url + "&i=" + srch + "%3f"
+    srch = ''.join(query)
+    srchf = srch.replace(' ','+')
+    print(srchf)
+    final_url = url + "&i=" + srchf + "%3f"
 
     obj = requests.get(final_url)
     data = obj.text
