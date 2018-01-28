@@ -20,20 +20,56 @@ def webhook():
         req = request.get_json(silent=True, force=True)
 
         print("Request:")
-        data = req['result']['parameters'].get('text')
-        print(data)
+        dat = req['result']['parameters'].get('text')
+        print(dat)
 
         #print(json.dumps(req, indent=4))
-        return data
 
 
-        #res = process_req(req)
+        res = process_req(req)
 
-        #resq = json.dumps(res)
-        # print(res)
-        #r = make_response(jsonify(resq))
-        #r.add_header("Content-type", "application/json")
-        #return r
+        resq = json.dumps(res)
+        print(resq)
+        r = make_response(jsonify(resq))
+        r.add_header("Content-type", "application/json")
+        print(r)
+        return r
+
+def process_req(req):
+    action = req.get('result').get('action')
+    print(action)
+    if action == "query":
+        qry = req['result']['parameters'].get('text')
+        print(qry)
+        res = wa_search(qry)
+        return res
+    else:
+        return {
+            "speech" : "error",
+            "displayText" : "error",
+            "data": {},
+            "contextOut": [],
+            "source": "wolfram_alpha_bot"
+        }
+
+
+def wa_search(query):
+    url = 'http://api.wolframalpha.com/v1/result?appid=UJKYEW-YKL88PHUER'
+    srch = query.replace(' ', '+')
+    final_url = url + "&i=" + srch + "%3f"
+
+    obj = requests.get(final_url)
+    data = obj.text
+
+    print(data)
+
+    return {
+        "speech" : data,
+        "displayText" : data,
+        "data" : {},
+        "contextOut" : [],
+        "source" : "wolfram_alpha_bot"
+    }
 
 
 if __name__ == '__main__':
