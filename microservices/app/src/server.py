@@ -20,8 +20,12 @@ def webhook():
         req = request.get_json(silent=True, force=True)
 
         print("Request:")
-        print(json.dumps(req, indent=4))
-        return req
+        data = req['result']['parameters'].get('text')
+        print(data)
+
+        #print(json.dumps(req, indent=4))
+        return data
+
 
         #res = process_req(req)
 
