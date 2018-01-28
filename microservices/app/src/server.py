@@ -8,7 +8,7 @@ import json
 
 
 #from flask import request
-from flask import make_response
+from flask import make_response, jsonify
 # from flask import jsonify
 
 
@@ -20,28 +20,37 @@ def home():
 def webhook():
     req = request.get_json(silent=True, force=True)
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
+    #print("Request:")
+    #print(json.dumps(req, indent=4))
 
     res = process_req(req)
 
-    res = json.dumps(res, indent=4)
+    resq = json.dumps(res)
     # print(res)
-    r = make_response(res)
+    r = make_response(jsonify(resq))
     r.add_header("Content-type", "application/json")
     return r
 
 
 def process_req(req):
-    if req.get("result").get("action") == "search_init.search_init-custom":
-        qry = req.get("result").get("parameters").get("text")
+    action = req.get('result').get('action')
+    if action == "search_init.search_init-custom":
+        qry = req['result']['parameters'].get('text')
         res = wa_search(qry)
         return res
+    else:
+        return {
+            "speech" : "error",
+            "displayText" : "error",
+            "data": {},
+            "contextOut": [],
+            "source": "wolfram_alpha_bot"
+        }
 
 
 def wa_search(query):
     url = 'http://api.wolframalpha.com/v1/result?appid=UJKYEW-YKL88PHUER'
-    srch = query.replace(' ', '+')
+    srch = query.replace('%20', '+')
     final_url = url + "&i=" + srch + "%3f"
 
     obj = requests.get(final_url)
