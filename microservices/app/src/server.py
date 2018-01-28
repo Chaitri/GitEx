@@ -52,6 +52,8 @@ def wa_search(query):
     return {
         "speech" : data,
         "displayText" : data,
+        "data" : {},
+        "contextOut" : [],
         "source" : "wolfram_alpha_bot"
     }
 
