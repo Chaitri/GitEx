@@ -3,6 +3,7 @@ from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError
 import json
+import requests
 #import os
 from flask import request
 from flask import make_response, jsonify
