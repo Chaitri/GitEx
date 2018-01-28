@@ -31,10 +31,10 @@ def webhook():
 
         resq = json.dumps(res)
         print(resq)
-        r = make_response(jsonify(resq))
+        #r = make_response(jsonify(resq))
         #r.add_header("Content-type", "application/json")
-        print(r)
-        return r
+        #print(r)
+        return resq
 
 def process_req(req):
     action = req.get('result').get('action')
