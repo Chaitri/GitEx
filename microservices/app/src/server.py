@@ -51,7 +51,7 @@ def wa_search(query):
     url = 'http://api.wolframalpha.com/v1/result?appid=UJKYEW-YKL88PHUER'
     srch = ''.join(query)
     srch_str = srch.replace(' ','+')
-    print(srchf)
+    print(srch_str)
     final_url = url + "&i=" + srch_str + "%3f"
 
     # obtain response from Wolfram Alpha
