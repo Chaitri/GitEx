@@ -4,10 +4,9 @@ from urllib.request import urlopen, Request
 from urllib.error import HTTPError
 import json
 import requests
-#import os
 from flask import request
 from flask import make_response, jsonify
-# from flask import jsonify
+
 
 @app.route("/")
 def home():
@@ -24,16 +23,10 @@ def webhook():
         dat = req['result']['parameters'].get('text')
         print(dat)
 
-        #print(json.dumps(req, indent=4))
-
-
         res = process_req(req)
-
         resq = json.dumps(res)
+
         print(resq)
-        #r = make_response(jsonify(resq))
-        #r.add_header("Content-type", "application/json")
-        #print(r)
         return resq
 
 def process_req(req):
@@ -57,15 +50,18 @@ def process_req(req):
 def wa_search(query):
     url = 'http://api.wolframalpha.com/v1/result?appid=UJKYEW-YKL88PHUER'
     srch = ''.join(query)
-    srchf = srch.replace(' ','+')
+    srch_str = srch.replace(' ','+')
     print(srchf)
-    final_url = url + "&i=" + srchf + "%3f"
+    final_url = url + "&i=" + srch_str + "%3f"
+
+    # obtain response from Wolfram Alpha
 
     obj = requests.get(final_url)
     data = obj.text
 
     print(data)
 
+    # return response in form understandable by bot
     return {
         "speech" : data,
         "displayText" : data,
